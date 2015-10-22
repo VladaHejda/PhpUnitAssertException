@@ -1,0 +1,29 @@
+{
+	"name": "vladahejda/phpunit-assert-exception",
+	"description": "Assert exception PHP Unit trait.",
+	"type": "library",
+	"keywords": [
+		"phpunit"
+	],
+	"license": "BSD-3-Clause",
+	"authors": [
+		{
+			"name": "Vladislav Hejda",
+			"email": "jsem@hejdav.cz"
+		}
+	],
+	"require": {
+		"php": ">=5.5",
+		"phpunit/phpunit": ">=3.7.31"
+	},
+	"autoload": {
+		"classmap": [
+			"src/"
+		]
+	},
+	"autoload-dev": {
+		"classmap": [
+			"tests/"
+		]
+	}
+}
