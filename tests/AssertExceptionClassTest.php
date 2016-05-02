@@ -12,7 +12,7 @@ class AssertExceptionClassTest extends \PHPUnit_Framework_TestCase
 		$test = function() {
 			throw new Exception();
 		};
-		AssertException::assertException($test, null);
+		$this->assertInstanceOf(Exception::class, AssertException::assertException($test, null));
 	}
 
 	public function testClass()
@@ -20,7 +20,7 @@ class AssertExceptionClassTest extends \PHPUnit_Framework_TestCase
 		$test = function() {
 			throw new MyException();
 		};
-		AssertException::assertException($test, MyException::class);
+		$this->assertInstanceOf(MyException::class, AssertException::assertException($test, MyException::class));
 	}
 
 	public function testSubclass()
@@ -28,7 +28,7 @@ class AssertExceptionClassTest extends \PHPUnit_Framework_TestCase
 		$test = function() {
 			throw new MyException();
 		};
-		AssertException::assertException($test);
+		$this->assertInstanceOf(MyException::class, AssertException::assertException($test));
 	}
 
 	public function testSubclassOfSubclass()
@@ -36,7 +36,7 @@ class AssertExceptionClassTest extends \PHPUnit_Framework_TestCase
 		$test = function() {
 			throw new MyExceptionSubclass();
 		};
-		AssertException::assertException($test, MyException::class);
+		$this->assertInstanceOf(MyExceptionSubclass::class, AssertException::assertException($test, MyException::class));
 	}
 
 	public function testLowercaseClass()
@@ -44,7 +44,7 @@ class AssertExceptionClassTest extends \PHPUnit_Framework_TestCase
 		$test = function() {
 			throw new Exception();
 		};
-		AssertException::assertException($test, 'exception');
+		$this->assertInstanceOf(Exception::class, AssertException::assertException($test, 'exception'));
 	}
 
 	public function testFqn()
@@ -52,7 +52,7 @@ class AssertExceptionClassTest extends \PHPUnit_Framework_TestCase
 		$test = function() {
 			throw new Exception();
 		};
-		AssertException::assertException($test, '\Exception');
+		$this->assertInstanceOf(Exception::class, AssertException::assertException($test, '\Exception'));
 	}
 
 	public function testLowercaseFqn()
@@ -60,7 +60,7 @@ class AssertExceptionClassTest extends \PHPUnit_Framework_TestCase
 		$test = function() {
 			throw new Exception();
 		};
-		AssertException::assertException($test, '\exception');
+		$this->assertInstanceOf(Exception::class, AssertException::assertException($test, '\exception'));
 	}
 
 	public function testInterface()
@@ -68,7 +68,7 @@ class AssertExceptionClassTest extends \PHPUnit_Framework_TestCase
 		$test = function() {
 			throw new MyExceptionImplementsInterface();
 		};
-		AssertException::assertException($test, MyExceptionInterface::class);
+		$this->assertInstanceOf(MyExceptionImplementsInterface::class, AssertException::assertException($test, MyExceptionInterface::class));
 	}
 
 }

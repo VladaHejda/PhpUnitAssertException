@@ -32,7 +32,7 @@ trait AssertException
 			self::checkExceptionInstanceOf($exception, $expectedExceptionClass);
 			self::checkExceptionCode($exception, $expectedCode);
 			self::checkExceptionMessage($exception, $expectedMessage);
-			return;
+			return $exception;
 		}
 		self::failAssertingException($expectedExceptionClass);
 	}
