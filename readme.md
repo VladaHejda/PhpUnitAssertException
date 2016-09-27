@@ -35,6 +35,12 @@ class UsageTest extends PHPUnit_Framework_TestCase
 		$this->assertException(function () {
 			throw new InvalidArgumentException('Some Message', 10);
 		}, InvalidArgumentException::class, 10, 'Some Message');
+		
+		// return the exception thrown to allow customs tests
+		$exceptionThrown = $this->assertException(function() {
+			throw new UserNotFoundException('user-id');
+		}, UserNotFoundException::class);
+		$this->assertEquals('user-id', $exceptionThrown->getUserId());
 	}
 }
 ```
