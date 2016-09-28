@@ -71,4 +71,13 @@ class AssertExceptionClassTest extends \PHPUnit_Framework_TestCase
 		AssertException::assertException($test, MyExceptionInterface::class);
 	}
 
+	public function testReturnType()
+	{
+		$exception = new MyException();
+		$test = function () use ($exception) {
+			throw $exception;
+		};
+		$this->assertSame($exception, AssertException::assertException($test));
+	}
+
 }
