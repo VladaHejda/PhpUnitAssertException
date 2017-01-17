@@ -22,9 +22,9 @@ trait AssertException
 	 */
 	public static function assertThrowable(
 		callable $test,
-		$expectedThrowableClass = Throwable::class,
+		?string $expectedThrowableClass = Throwable::class,
 		$expectedCode = null,
-		string $expectedMessage = null
+		?string $expectedMessage = null
 	): Throwable
 	{
 		$expectedThrowableClass = self::fixThrowableClass($expectedThrowableClass, Throwable::class);
@@ -50,9 +50,9 @@ trait AssertException
 	 */
 	public static function assertException(
 		callable $test,
-		$expectedExceptionClass = Exception::class,
+		?string $expectedExceptionClass = Exception::class,
 		$expectedCode = null,
-		string $expectedMessage = null
+		?string $expectedMessage = null
 	): Exception
 	{
 		$expectedExceptionClass = self::fixThrowableClass($expectedExceptionClass, Exception::class);
@@ -78,9 +78,9 @@ trait AssertException
 	 */
 	public static function assertError(
 		callable $test,
-		$expectedErrorClass = Error::class,
+		?string $expectedErrorClass = Error::class,
 		$expectedCode = null,
-		string $expectedMessage = null
+		?string $expectedMessage = null
 	): Error
 	{
 		$expectedErrorClass = self::fixThrowableClass($expectedErrorClass, Error::class);
@@ -97,18 +97,10 @@ trait AssertException
 		self::failAssertingThrowable($expectedErrorClass);
 	}
 
-	/**
-	 * @param string|null $exceptionClass
-	 * @param string $defaultClass
-	 * @return string
-	 */
-	private static function fixThrowableClass($exceptionClass, string $defaultClass = Throwable::class): string
+	private static function fixThrowableClass(?string $exceptionClass, string $defaultClass = Throwable::class): string
 	{
 		if ($exceptionClass === null) {
 			$exceptionClass = $defaultClass;
-
-		} elseif (!is_string($exceptionClass)) {
-			throw new InvalidArgumentException('Expected exception class must be string or null, %s given.', gettype($exceptionClass));
 
 		} else {
 			try {
