@@ -1,7 +1,6 @@
 # PhpUnitAssertException
 
-> PhpUnit AssertException trait
-
+`AssertException` is a trait, so it can be easily used in your test case.
 
 ## Install
 
@@ -14,27 +13,44 @@ $ composer require vladahejda/phpunit-assert-exception
 
 ```php
 <?php
-class UsageTest extends PHPUnit_Framework_TestCase
+
+class MyTest extends PHPUnit_Framework_TestCase
 {
 	use VladaHejda\AssertException;
 
 	public function testMultipleExceptionsAtOnce()
 	{
-		$this->assertException(function () {
-			throw new InvalidArgumentException('Some Message', 10);
-		});
+		$test = function () {
+			// here comes some test stuff of your unit (tested class)
+			// which you expect that will throw an Exception
+			throw new InvalidArgumentException('Some message 12345', 100);
+		};
 
-		$this->assertException(function () {
-			throw new InvalidArgumentException('Some Message', 10);
-		}, InvalidArgumentException::class);
+		// just test if function throws an Exception
+		$this->assertException($test); // pass
 
-		$this->assertException(function () {
-			throw new InvalidArgumentException('Some Message', 10);
-		}, InvalidArgumentException::class, 10);
+		// test class of an Exception
+		$this->assertException($test, InvalidArgumentException::class); // pass
 
-		$this->assertException(function () {
-			throw new InvalidArgumentException('Some Message', 10);
-		}, InvalidArgumentException::class, 10, 'Some Message');
+		// test Exception code
+		$this->assertException($test, null, 100); // pass
+
+		// test Exception message
+		$this->assertException($test, null, null, 'Some message 12345'); // pass
+		$this->assertException($test, null, null, 'Some message'); // also pass, because it checks on substring level
+
+		// test all
+		$this->assertException($test, InvalidArgumentException::class, 100, 'Some message 12345'); // pass
+
+		// and here some failing tests
+		// wrong class
+		$this->assertException($test, ErrorException::class); // fail
+		// wrong code
+		$this->assertException($test, InvalidArgumentException::class, 200); // fail
+		// wrong message
+		$this->assertException($test, InvalidArgumentException::class, 'Bad message'); // fail
 	}
 }
 ```
+
+Also see an `assertError` and `assertThrowable` methods, which tests if PHP internal `Error` was thrown, or any `Throwable` respectively.
