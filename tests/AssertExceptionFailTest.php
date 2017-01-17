@@ -10,7 +10,8 @@ class AssertExceptionFailTest extends \PHPUnit_Framework_TestCase
 
 	public function testBadCode()
 	{
-		$this->setExpectedException(PHPUnit_Framework_Exception::class, 'Failed asserting the code of thrown Exception.');
+		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectExceptionMessage('Failed asserting the code of thrown Exception.');
 
 		$test = function() {
 			throw new Exception(null, 110);
@@ -20,7 +21,8 @@ class AssertExceptionFailTest extends \PHPUnit_Framework_TestCase
 
 	public function testBadCodeOfClass()
 	{
-		$this->setExpectedException(PHPUnit_Framework_Exception::class, sprintf(
+		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectExceptionMessage(sprintf(
 			'Failed asserting the code of thrown %s.',
 			MyException::class
 		));
@@ -33,7 +35,8 @@ class AssertExceptionFailTest extends \PHPUnit_Framework_TestCase
 
 	public function testBadMessage()
 	{
-		$this->setExpectedException(PHPUnit_Framework_Exception::class, 'Failed asserting the message of thrown Exception.');
+		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectExceptionMessage('Failed asserting the message of thrown Exception.');
 
 		$test = function() {
 			throw new Exception('Wrong message.');
@@ -43,7 +46,8 @@ class AssertExceptionFailTest extends \PHPUnit_Framework_TestCase
 
 	public function testBadMessageOfClass()
 	{
-		$this->setExpectedException(PHPUnit_Framework_Exception::class, sprintf(
+		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectExceptionMessage(sprintf(
 			'Failed asserting the message of thrown %s.',
 			MyException::class
 		));

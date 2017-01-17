@@ -1,76 +1,145 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace VladaHejda;
 
+use Error;
 use Exception;
 use InvalidArgumentException;
 use PHPUnit_Framework_TestCase;
 use ReflectionClass;
 use ReflectionException;
+use Throwable;
 
 trait AssertException
 {
 
 	/**
 	 * @param callable $test
-	 * @param string|null $expectedExceptionClass
-	 * @param int|string|null $expectedCode
+	 * @param string|null $expectedThrowableClass
+	 * @param string|int|null $expectedCode
 	 * @param string|null $expectedMessage
+	 * @return \Throwable
+	 */
+	public static function assertThrowable(
+		callable $test,
+		$expectedThrowableClass = Throwable::class,
+		$expectedCode = null,
+		string $expectedMessage = null
+	): Throwable
+	{
+		$expectedThrowableClass = self::fixThrowableClass($expectedThrowableClass, Throwable::class);
+
+		try {
+			$test();
+		} catch (Throwable $throwable) {
+			self::checkThrowableInstanceOf($throwable, $expectedThrowableClass);
+			self::checkThrowableCode($throwable, $expectedCode);
+			self::checkThrowableMessage($throwable, $expectedMessage);
+			return $throwable;
+		}
+
+		self::failAssertingThrowable($expectedThrowableClass);
+	}
+
+	/**
+	 * @param callable $test
+	 * @param string|null $expectedExceptionClass
+	 * @param string|int|null $expectedCode
+	 * @param string|null $expectedMessage
+	 * @return \Exception
 	 */
 	public static function assertException(
 		callable $test,
 		$expectedExceptionClass = Exception::class,
 		$expectedCode = null,
-		$expectedMessage = null
-	)
+		string $expectedMessage = null
+	): Exception
 	{
-		$expectedExceptionClass = self::fixExceptionClass($expectedExceptionClass);
+		$expectedExceptionClass = self::fixThrowableClass($expectedExceptionClass, Exception::class);
 
 		try {
 			$test();
 		} catch (Exception $exception) {
-			self::checkExceptionInstanceOf($exception, $expectedExceptionClass);
-			self::checkExceptionCode($exception, $expectedCode);
-			self::checkExceptionMessage($exception, $expectedMessage);
-			return;
+			self::checkThrowableInstanceOf($exception, $expectedExceptionClass);
+			self::checkThrowableCode($exception, $expectedCode);
+			self::checkThrowableMessage($exception, $expectedMessage);
+			return $exception;
 		}
-		self::failAssertingException($expectedExceptionClass);
+
+		self::failAssertingThrowable($expectedExceptionClass);
 	}
 
 	/**
-	 * @param string $exceptionClass
+	 * @param callable $test
+	 * @param string|null $expectedErrorClass
+	 * @param string|int|null $expectedCode
+	 * @param string|null $expectedMessage
+	 * @return \Error
+	 */
+	public static function assertError(
+		callable $test,
+		$expectedErrorClass = Error::class,
+		$expectedCode = null,
+		string $expectedMessage = null
+	): Error
+	{
+		$expectedErrorClass = self::fixThrowableClass($expectedErrorClass, Error::class);
+
+		try {
+			$test();
+		} catch (Error $error) {
+			self::checkThrowableInstanceOf($error, $expectedErrorClass);
+			self::checkThrowableCode($error, $expectedCode);
+			self::checkThrowableMessage($error, $expectedMessage);
+			return $error;
+		}
+
+		self::failAssertingThrowable($expectedErrorClass);
+	}
+
+	/**
+	 * @param string|null $exceptionClass
+	 * @param string $defaultClass
 	 * @return string
 	 */
-	private static function fixExceptionClass($exceptionClass)
+	private static function fixThrowableClass($exceptionClass, string $defaultClass = Throwable::class): string
 	{
 		if ($exceptionClass === null) {
-			$exceptionClass = Exception::class;
+			$exceptionClass = $defaultClass;
+
 		} elseif (!is_string($exceptionClass)) {
 			throw new InvalidArgumentException('Expected exception class must be string or null, %s given.', gettype($exceptionClass));
+
 		} else {
 			try {
 				$reflection = new ReflectionClass($exceptionClass);
+				$exceptionClass = $reflection->getName();
 			} catch (ReflectionException $e) {
 				PHPUnit_Framework_TestCase::fail(sprintf('An exception of type "%s" does not exist.', $exceptionClass));
 			}
-			$exceptionClass = $reflection->getName();
 
-			if (!$reflection->isInterface() && $exceptionClass !== Exception::class && !$reflection->isSubclassOf(Exception::class)) {
-				PHPUnit_Framework_TestCase::fail(sprintf('A class "%s" is not an Exception.', $exceptionClass));
+			if (!$reflection->isInterface() && $exceptionClass !== $defaultClass && !$reflection->isSubclassOf($defaultClass)) {
+				switch ($defaultClass) {
+					case Exception::class:
+						$expectedType = 'an Exception';
+						break;
+					case Error::class:
+						$expectedType = 'an Error';
+						break;
+					default:
+						$expectedType = 'a Throwable';
+				}
+				PHPUnit_Framework_TestCase::fail(sprintf('A class "%s" is not %s.', $exceptionClass, $expectedType));
 			}
 		}
 
 		return $exceptionClass;
 	}
 
-	/**
-	 * @param \Exception $exception
-	 * @param string $expectedExceptionClass
-	 */
-	private static function checkExceptionInstanceOf(Exception $exception, $expectedExceptionClass)
+	private static function checkThrowableInstanceOf(Throwable $throwable, string $expectedThrowableClass)
 	{
-		$message = $exception->getMessage();
-		$code = $exception->getCode();
+		$message = $throwable->getMessage();
+		$code = $throwable->getCode();
 
 		$details = '';
 		if ($message !== '' && $code !== 0) {
@@ -82,43 +151,34 @@ trait AssertException
 		}
 
 		$errorMessage = sprintf('Failed asserting the class of an exception%s.', $details);
-		PHPUnit_Framework_TestCase::assertInstanceOf($expectedExceptionClass, $exception, $errorMessage);
+		PHPUnit_Framework_TestCase::assertInstanceOf($expectedThrowableClass, $throwable, $errorMessage);
 	}
 
 	/**
-	 * @param \Exception $exception
+	 * @param \Throwable $exception
 	 * @param int|string|null $expectedCode
 	 */
-	private static function checkExceptionCode(Exception $exception, $expectedCode)
+	private static function checkThrowableCode(Throwable $exception, $expectedCode)
 	{
 		if ($expectedCode !== null) {
 			PHPUnit_Framework_TestCase::assertEquals($expectedCode, $exception->getCode(), sprintf('Failed asserting the code of thrown %s.', get_class($exception)));
 		}
 	}
 
-	/**
-	 * @param \Exception $exception
-	 * @param string|null $expectedMessage
-	 */
-	private static function checkExceptionMessage(Exception $exception, $expectedMessage)
+	private static function checkThrowableMessage(Throwable $throwable, string $expectedMessage = null)
 	{
 		if ($expectedMessage !== null) {
-			PHPUnit_Framework_TestCase::assertContains($expectedMessage, $exception->getMessage(), sprintf('Failed asserting the message of thrown %s.', get_class($exception)));
+			PHPUnit_Framework_TestCase::assertContains($expectedMessage, $throwable->getMessage(), sprintf('Failed asserting the message of thrown %s.', get_class($throwable)));
 		}
 	}
 
 	/**
-	 * @param string $expectedExceptionClass
+	 * @param string $expectedThrowableClass
+	 * @throws \PHPUnit_Framework_AssertionFailedError
 	 */
-	private static function failAssertingException($expectedExceptionClass)
+	private static function failAssertingThrowable(string $expectedThrowableClass)
 	{
-		$details = '';
-		if ($expectedExceptionClass !== Exception::class) {
-			$details = sprintf(' of type %s', $expectedExceptionClass);
-		}
-
-		$errorMessage = sprintf('Failed asserting that Exception%s was thrown.', $details);
-		PHPUnit_Framework_TestCase::fail($errorMessage);
+		PHPUnit_Framework_TestCase::fail(sprintf('Failed asserting that %s was thrown.', $expectedThrowableClass));
 	}
 
 }

@@ -1,6 +1,6 @@
 {
 	"name": "vladahejda/phpunit-assert-exception",
-	"description": "Assert exception PHP Unit trait.",
+	"description": "Assert exception/throwable/error PHP Unit trait.",
 	"type": "library",
 	"keywords": [
 		"phpunit"
@@ -13,7 +13,7 @@
 		}
 	],
 	"require": {
-		"php": ">=5.5",
+		"php": ">=7.0",
 		"phpunit/phpunit": ">=3.7.31"
 	},
 	"autoload": {

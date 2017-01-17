@@ -9,10 +9,9 @@ class AssertExceptionTest extends \PHPUnit_Framework_TestCase
 
 	public function testException()
 	{
-		$test = function() {
+		AssertException::assertException(function() {
 			throw new Exception();
-		};
-		AssertException::assertException($test);
+		});
 	}
 
 	public function testCode()
@@ -45,6 +44,16 @@ class AssertExceptionTest extends \PHPUnit_Framework_TestCase
 			throw new Exception('My message.', 110);
 		};
 		AssertException::assertException($test, null, 110, 'My message.');
+	}
+
+	public function testReturn()
+	{
+		$expectedException = new Exception();
+		$actualException = AssertException::assertException(function() use ($expectedException) {
+			throw $expectedException;
+		});
+
+		self::assertSame($expectedException, $actualException);
 	}
 
 }
