@@ -2,6 +2,10 @@
 
 `AssertException` is a trait, so it can be easily used in your test case.
 
+- For PHP 7.1 compatibility require version `1.2.0`.
+- For PHP 7 compatibility require version `1.1.0`.
+- For PHP 5 compatibility require version `1.0.0`.
+
 ## Install
 
 ```
