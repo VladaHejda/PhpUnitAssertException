@@ -48,7 +48,7 @@ class MyTest extends PHPUnit_Framework_TestCase
 		// wrong code
 		$this->assertException($test, InvalidArgumentException::class, 200); // fail
 		// wrong message
-		$this->assertException($test, InvalidArgumentException::class, 'Bad message'); // fail
+		$this->assertException($test, InvalidArgumentException::class, 100, 'Bad message'); // fail
 	}
 }
 ```
