@@ -13,8 +13,8 @@
 		}
 	],
 	"require": {
-		"php": ">=7.0",
-		"phpunit/phpunit": ">=3.7.31"
+		"php": "~7.0",
+		"phpunit/phpunit": "~5.2"
 	},
 	"autoload": {
 		"classmap": [
