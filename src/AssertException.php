@@ -16,6 +16,7 @@ trait AssertException
 	 * @param string|null $expectedExceptionClass
 	 * @param int|string|null $expectedCode
 	 * @param string|null $expectedMessage
+	 * @return \Exception
 	 */
 	public static function assertException(
 		callable $test,
@@ -32,7 +33,7 @@ trait AssertException
 			self::checkExceptionInstanceOf($exception, $expectedExceptionClass);
 			self::checkExceptionCode($exception, $expectedCode);
 			self::checkExceptionMessage($exception, $expectedMessage);
-			return;
+			return $exception;
 		}
 		self::failAssertingException($expectedExceptionClass);
 	}
