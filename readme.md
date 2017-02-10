@@ -2,6 +2,7 @@
 
 `AssertException` is a trait, so it can be easily used in your test case.
 
+- For PHP 7.1 and PHPUnit 6 compatibility require version `1.3`.
 - For PHP 7.1 compatibility require version `1.2`.
 - For PHP 7 compatibility require version `1.1`.
 - For PHP 5 compatibility require version `1.0`.
@@ -18,7 +19,7 @@ $ composer require vladahejda/phpunit-assert-exception
 ```php
 <?php
 
-class MyTest extends PHPUnit_Framework_TestCase
+class MyTest extends PHPUnit\Framework\TestCase
 {
 	use VladaHejda\AssertException;
 

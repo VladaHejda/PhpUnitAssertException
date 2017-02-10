@@ -3,14 +3,13 @@
 namespace VladaHejda;
 
 use Exception;
-use PHPUnit_Framework_Exception;
 
-class AssertExceptionFailTest extends \PHPUnit_Framework_TestCase
+class AssertExceptionFailTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testBadCode()
 	{
-		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectException(\PHPUnit\Framework\Exception::class);
 		$this->expectExceptionMessage('Failed asserting the code of thrown Exception.');
 
 		$test = function() {
@@ -21,7 +20,7 @@ class AssertExceptionFailTest extends \PHPUnit_Framework_TestCase
 
 	public function testBadCodeOfClass()
 	{
-		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectException(\PHPUnit\Framework\Exception::class);
 		$this->expectExceptionMessage(sprintf(
 			'Failed asserting the code of thrown %s.',
 			MyException::class
@@ -35,7 +34,7 @@ class AssertExceptionFailTest extends \PHPUnit_Framework_TestCase
 
 	public function testBadMessage()
 	{
-		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectException(\PHPUnit\Framework\Exception::class);
 		$this->expectExceptionMessage('Failed asserting the message of thrown Exception.');
 
 		$test = function() {
@@ -46,7 +45,7 @@ class AssertExceptionFailTest extends \PHPUnit_Framework_TestCase
 
 	public function testBadMessageOfClass()
 	{
-		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectException(\PHPUnit\Framework\Exception::class);
 		$this->expectExceptionMessage(sprintf(
 			'Failed asserting the message of thrown %s.',
 			MyException::class
