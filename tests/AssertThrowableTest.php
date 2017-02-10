@@ -4,9 +4,8 @@ namespace VladaHejda;
 
 use Error;
 use Exception;
-use PHPUnit_Framework_Exception;
 
-class AssertThrowableTest extends \PHPUnit_Framework_TestCase
+class AssertThrowableTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testThrowable()
@@ -84,7 +83,7 @@ class AssertThrowableTest extends \PHPUnit_Framework_TestCase
 
 	public function testInstanceOfError()
 	{
-		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectException(\PHPUnit\Framework\Exception::class);
 		$this->expectExceptionMessage(sprintf('A class "%s" is not a Throwable.', NotException::class));
 
 		$test = function () {

@@ -5,7 +5,7 @@ namespace VladaHejda;
 use Error;
 use Exception;
 
-class AssertErrorTest extends \PHPUnit_Framework_TestCase
+class AssertErrorTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testError()

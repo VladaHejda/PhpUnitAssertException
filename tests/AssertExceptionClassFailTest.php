@@ -4,14 +4,13 @@ namespace VladaHejda;
 
 use Error;
 use Exception;
-use PHPUnit_Framework_Exception;
 
-class AssertExceptionClassFailTest extends \PHPUnit_Framework_TestCase
+class AssertExceptionClassFailTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testNothingThrown()
 	{
-		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectException(\PHPUnit\Framework\Exception::class);
 		$this->expectExceptionMessage('Failed asserting that Exception was thrown.');
 
 		$test = function() {
@@ -21,7 +20,7 @@ class AssertExceptionClassFailTest extends \PHPUnit_Framework_TestCase
 
 	public function testNothingThrownWithSpecifiedClass()
 	{
-		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectException(\PHPUnit\Framework\Exception::class);
 		$this->expectExceptionMessage(sprintf(
 			'Failed asserting that %s was thrown.',
 			MyException::class
@@ -34,7 +33,7 @@ class AssertExceptionClassFailTest extends \PHPUnit_Framework_TestCase
 
 	public function testUndefinedClass()
 	{
-		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectException(\PHPUnit\Framework\Exception::class);
 		$this->expectExceptionMessage('An exception of type "UndefinedException" does not exist.');
 
 		$test = function() {
@@ -45,7 +44,7 @@ class AssertExceptionClassFailTest extends \PHPUnit_Framework_TestCase
 
 	public function testNonException()
 	{
-		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectException(\PHPUnit\Framework\Exception::class);
 		$this->expectExceptionMessage(sprintf(
 			'A class "%s" is not an Exception.',
 			NotException::class
@@ -59,7 +58,7 @@ class AssertExceptionClassFailTest extends \PHPUnit_Framework_TestCase
 
 	public function testNotInstanceOf()
 	{
-		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectException(\PHPUnit\Framework\Exception::class);
 		$this->expectExceptionMessage('Failed asserting the class of an exception.');
 
 		$test = function() {
@@ -70,7 +69,7 @@ class AssertExceptionClassFailTest extends \PHPUnit_Framework_TestCase
 
 	public function testNotInstanceOfWithCode()
 	{
-		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectException(\PHPUnit\Framework\Exception::class);
 		$this->expectExceptionMessage('Failed asserting the class of an exception (code was 110).');
 
 		$test = function() {
@@ -81,7 +80,7 @@ class AssertExceptionClassFailTest extends \PHPUnit_Framework_TestCase
 
 	public function testNotInstanceOfWithMessage()
 	{
-		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectException(\PHPUnit\Framework\Exception::class);
 		$this->expectExceptionMessage('Failed asserting the class of an exception (message was "My message.").');
 
 		$test = function() {
@@ -92,7 +91,7 @@ class AssertExceptionClassFailTest extends \PHPUnit_Framework_TestCase
 
 	public function testNotInstanceOfWithCodeAndMessage()
 	{
-		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectException(\PHPUnit\Framework\Exception::class);
 		$this->expectExceptionMessage('Failed asserting the class of an exception (code was 110, message was "My message.").');
 
 		$test = function() {
@@ -113,7 +112,7 @@ class AssertExceptionClassFailTest extends \PHPUnit_Framework_TestCase
 
 	public function testInstanceOfError()
 	{
-		$this->expectException(PHPUnit_Framework_Exception::class);
+		$this->expectException(\PHPUnit\Framework\Exception::class);
 		$this->expectExceptionMessage(sprintf('A class "%s" is not an Exception.', Error::class));
 
 		$test = function () {
