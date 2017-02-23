@@ -10,9 +10,9 @@ class AssertExceptionTraitTest extends TestCase
 
 	use AssertException;
 
-	public function testException()
+	public function testException(): void
 	{
-		$test = function() {
+		$test = function (): void {
 			throw new Exception();
 		};
 		self::assertException($test);

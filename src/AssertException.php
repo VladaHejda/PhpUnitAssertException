@@ -127,7 +127,7 @@ trait AssertException
 		return $exceptionClass;
 	}
 
-	private static function checkThrowableInstanceOf(Throwable $throwable, string $expectedThrowableClass)
+	private static function checkThrowableInstanceOf(Throwable $throwable, string $expectedThrowableClass): void
 	{
 		$message = $throwable->getMessage();
 		$code = $throwable->getCode();
@@ -149,14 +149,14 @@ trait AssertException
 	 * @param \Throwable $exception
 	 * @param int|string|null $expectedCode
 	 */
-	private static function checkThrowableCode(Throwable $exception, $expectedCode)
+	private static function checkThrowableCode(Throwable $exception, $expectedCode): void
 	{
 		if ($expectedCode !== null) {
 			TestCase::assertEquals($expectedCode, $exception->getCode(), sprintf('Failed asserting the code of thrown %s.', get_class($exception)));
 		}
 	}
 
-	private static function checkThrowableMessage(Throwable $throwable, string $expectedMessage = null)
+	private static function checkThrowableMessage(Throwable $throwable, string $expectedMessage = null): void
 	{
 		if ($expectedMessage !== null) {
 			TestCase::assertContains($expectedMessage, $throwable->getMessage(), sprintf('Failed asserting the message of thrown %s.', get_class($throwable)));
@@ -167,7 +167,7 @@ trait AssertException
 	 * @param string $expectedThrowableClass
 	 * @throws \PHPUnit\Framework\AssertionFailedError
 	 */
-	private static function failAssertingThrowable(string $expectedThrowableClass)
+	private static function failAssertingThrowable(string $expectedThrowableClass): void
 	{
 		TestCase::fail(sprintf('Failed asserting that %s was thrown.', $expectedThrowableClass));
 	}

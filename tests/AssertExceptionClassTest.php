@@ -8,65 +8,65 @@ use PHPUnit\Framework\TestCase;
 class AssertExceptionClassTest extends TestCase
 {
 
-	public function testDefault()
+	public function testDefault(): void
 	{
-		$test = function() {
+		$test = function (): void {
 			throw new Exception();
 		};
 		AssertException::assertException($test, null);
 	}
 
-	public function testClass()
+	public function testClass(): void
 	{
-		$test = function() {
+		$test = function (): void {
 			throw new MyException();
 		};
 		AssertException::assertException($test, MyException::class);
 	}
 
-	public function testSubclass()
+	public function testSubclass(): void
 	{
-		$test = function() {
+		$test = function (): void {
 			throw new MyException();
 		};
 		AssertException::assertException($test);
 	}
 
-	public function testSubclassOfSubclass()
+	public function testSubclassOfSubclass(): void
 	{
-		$test = function() {
+		$test = function (): void {
 			throw new MyExceptionSubclass();
 		};
 		AssertException::assertException($test, MyException::class);
 	}
 
-	public function testLowercaseClass()
+	public function testLowercaseClass(): void
 	{
-		$test = function() {
+		$test = function (): void {
 			throw new Exception();
 		};
 		AssertException::assertException($test, 'exception');
 	}
 
-	public function testFqn()
+	public function testFqn(): void
 	{
-		$test = function() {
+		$test = function (): void {
 			throw new Exception();
 		};
 		AssertException::assertException($test, '\Exception');
 	}
 
-	public function testLowercaseFqn()
+	public function testLowercaseFqn(): void
 	{
-		$test = function() {
+		$test = function (): void {
 			throw new Exception();
 		};
 		AssertException::assertException($test, '\exception');
 	}
 
-	public function testInterface()
+	public function testInterface(): void
 	{
-		$test = function() {
+		$test = function (): void {
 			throw new MyExceptionImplementsInterface();
 		};
 		AssertException::assertException($test, MyExceptionInterface::class);

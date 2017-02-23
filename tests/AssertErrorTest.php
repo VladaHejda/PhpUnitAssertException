@@ -9,61 +9,61 @@ use PHPUnit\Framework\TestCase;
 class AssertErrorTest extends TestCase
 {
 
-	public function testError()
+	public function testError(): void
 	{
-		AssertException::assertError(function() {
+		AssertException::assertError(function (): void {
 			throw new Error();
 		});
 	}
 
-	public function testCode()
+	public function testCode(): void
 	{
-		$test = function() {
+		$test = function (): void {
 			throw new Error('', 110);
 		};
 		AssertException::assertError($test, null, 110);
 	}
 
-	public function testMessage()
+	public function testMessage(): void
 	{
-		$test = function() {
+		$test = function (): void {
 			throw new Error('My message.');
 		};
 		AssertException::assertError($test, null, null, 'My message.');
 	}
 
-	public function testMessageContains()
+	public function testMessageContains(): void
 	{
-		$test = function() {
+		$test = function (): void {
 			throw new Error('My message "Hello world".');
 		};
 		AssertException::assertError($test, null, null, 'Hello world');
 	}
 
-	public function testCodeAndMessage()
+	public function testCodeAndMessage(): void
 	{
-		$test = function() {
+		$test = function (): void {
 			throw new Error('My message.', 110);
 		};
 		AssertException::assertError($test, null, 110, 'My message.');
 	}
 
-	public function testReturn()
+	public function testReturn(): void
 	{
 		$expectedError = new Error();
-		$actualError = AssertException::assertError(function() use ($expectedError) {
+		$actualError = AssertException::assertError(function () use ($expectedError): void {
 			throw $expectedError;
 		});
 
 		self::assertSame($expectedError, $actualError);
 	}
 
-	public function testException()
+	public function testException(): void
 	{
 		$this->expectException(Exception::class);
 		$this->expectExceptionMessage('My exception');
 
-		AssertException::assertError(function () {
+		AssertException::assertError(function (): void {
 			throw new Exception('My exception');
 		});
 	}
