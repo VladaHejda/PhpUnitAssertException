@@ -3,8 +3,9 @@
 namespace VladaHejda;
 
 use Exception;
+use PHPUnit\Framework\TestCase;
 
-class AssertExceptionFailTest extends \PHPUnit\Framework\TestCase
+class AssertExceptionFailTest extends TestCase
 {
 
 	public function testBadCode()

@@ -4,8 +4,9 @@ namespace VladaHejda;
 
 use Error;
 use Exception;
+use PHPUnit\Framework\TestCase;
 
-class AssertThrowableTest extends \PHPUnit\Framework\TestCase
+class AssertThrowableTest extends TestCase
 {
 
 	public function testThrowable()

@@ -3,8 +3,9 @@
 namespace VladaHejda;
 
 use Exception;
+use PHPUnit\Framework\TestCase;
 
-class AssertExceptionTraitTest extends \PHPUnit\Framework\TestCase
+class AssertExceptionTraitTest extends TestCase
 {
 
 	use AssertException;

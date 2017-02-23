@@ -4,8 +4,9 @@ namespace VladaHejda;
 
 use Error;
 use Exception;
+use PHPUnit\Framework\TestCase;
 
-class AssertExceptionClassFailTest extends \PHPUnit\Framework\TestCase
+class AssertExceptionClassFailTest extends TestCase
 {
 
 	public function testNothingThrown()

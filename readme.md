@@ -19,7 +19,7 @@ $ composer require vladahejda/phpunit-assert-exception
 ```php
 <?php
 
-class MyTest extends PHPUnit\Framework\TestCase
+class MyTest extends \PHPUnit\Framework\TestCase
 {
 	use VladaHejda\AssertException;
 
