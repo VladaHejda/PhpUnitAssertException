@@ -12,7 +12,7 @@ class AssertExceptionClassFailTest extends TestCase
 	public function testNothingThrown(): void
 	{
 		$this->expectException(\PHPUnit\Framework\Exception::class);
-		$this->expectExceptionMessage('Failed asserting that Exception was thrown.');
+		$this->expectExceptionMessage('Failed asserting that an Exception was thrown.');
 
 		$test = function (): void {
 		};
@@ -35,7 +35,7 @@ class AssertExceptionClassFailTest extends TestCase
 	public function testUndefinedClass(): void
 	{
 		$this->expectException(\PHPUnit\Framework\Exception::class);
-		$this->expectExceptionMessage('An exception of type "UndefinedException" does not exist.');
+		$this->expectExceptionMessage('An Exception of type "UndefinedException" does not exist.');
 
 		$test = function (): void {
 			throw new Exception();
@@ -60,7 +60,7 @@ class AssertExceptionClassFailTest extends TestCase
 	public function testNotInstanceOf(): void
 	{
 		$this->expectException(\PHPUnit\Framework\Exception::class);
-		$this->expectExceptionMessage('Failed asserting the class of an exception.');
+		$this->expectExceptionMessage('Failed asserting the class of an Exception.');
 
 		$test = function (): void {
 			throw new MyException();
@@ -71,7 +71,7 @@ class AssertExceptionClassFailTest extends TestCase
 	public function testNotInstanceOfWithCode(): void
 	{
 		$this->expectException(\PHPUnit\Framework\Exception::class);
-		$this->expectExceptionMessage('Failed asserting the class of an exception (code was 110).');
+		$this->expectExceptionMessage('Failed asserting the class of an Exception (code was 110).');
 
 		$test = function (): void {
 			throw new MyException('', 110);
@@ -82,7 +82,7 @@ class AssertExceptionClassFailTest extends TestCase
 	public function testNotInstanceOfWithMessage(): void
 	{
 		$this->expectException(\PHPUnit\Framework\Exception::class);
-		$this->expectExceptionMessage('Failed asserting the class of an exception (message was "My message.").');
+		$this->expectExceptionMessage('Failed asserting the class of an Exception (message was "My message.").');
 
 		$test = function (): void {
 			throw new MyException('My message.');
@@ -93,7 +93,7 @@ class AssertExceptionClassFailTest extends TestCase
 	public function testNotInstanceOfWithCodeAndMessage(): void
 	{
 		$this->expectException(\PHPUnit\Framework\Exception::class);
-		$this->expectExceptionMessage('Failed asserting the class of an exception (code was 110, message was "My message.").');
+		$this->expectExceptionMessage('Failed asserting the class of an Exception (code was 110, message was "My message.").');
 
 		$test = function (): void {
 			throw new MyException('My message.', 110);

@@ -31,7 +31,7 @@ trait AssertException
 		try {
 			$test();
 		} catch (Throwable $throwable) {
-			self::checkThrowableInstanceOf($throwable, $expectedThrowableClass);
+			self::checkThrowableInstanceOf($throwable, $expectedThrowableClass, self::resolveThrowableCaption(Throwable::class));
 			self::checkThrowableCode($throwable, $expectedCode);
 			self::checkThrowableMessage($throwable, $expectedMessage);
 			return $throwable;
@@ -59,7 +59,7 @@ trait AssertException
 		try {
 			$test();
 		} catch (Exception $exception) {
-			self::checkThrowableInstanceOf($exception, $expectedExceptionClass);
+			self::checkThrowableInstanceOf($exception, $expectedExceptionClass, self::resolveThrowableCaption(Exception::class));
 			self::checkThrowableCode($exception, $expectedCode);
 			self::checkThrowableMessage($exception, $expectedMessage);
 			return $exception;
@@ -87,7 +87,7 @@ trait AssertException
 		try {
 			$test();
 		} catch (Error $error) {
-			self::checkThrowableInstanceOf($error, $expectedErrorClass);
+			self::checkThrowableInstanceOf($error, $expectedErrorClass, self::resolveThrowableCaption(Error::class));
 			self::checkThrowableCode($error, $expectedCode);
 			self::checkThrowableMessage($error, $expectedMessage);
 			return $error;
@@ -96,38 +96,28 @@ trait AssertException
 		self::failAssertingThrowable($expectedErrorClass);
 	}
 
-	private static function fixThrowableClass(?string $exceptionClass, string $defaultClass = Throwable::class): string
+	private static function fixThrowableClass(?string $throwableClass, string $defaultClass = Throwable::class): string
 	{
-		if ($exceptionClass === null) {
-			$exceptionClass = $defaultClass;
+		if ($throwableClass === null) {
+			$throwableClass = $defaultClass;
 
 		} else {
 			try {
-				$reflection = new ReflectionClass($exceptionClass);
-				$exceptionClass = $reflection->getName();
+				$reflection = new ReflectionClass($throwableClass);
+				$throwableClass = $reflection->getName();
 			} catch (ReflectionException $e) {
-				TestCase::fail(sprintf('An exception of type "%s" does not exist.', $exceptionClass));
+				TestCase::fail(sprintf('%s of type "%s" does not exist.', ucfirst(self::resolveThrowableCaption($defaultClass)), $throwableClass));
 			}
 
-			if (!$reflection->isInterface() && $exceptionClass !== $defaultClass && !$reflection->isSubclassOf($defaultClass)) {
-				switch ($defaultClass) {
-					case Exception::class:
-						$expectedType = 'an Exception';
-						break;
-					case Error::class:
-						$expectedType = 'an Error';
-						break;
-					default:
-						$expectedType = 'a Throwable';
-				}
-				TestCase::fail(sprintf('A class "%s" is not %s.', $exceptionClass, $expectedType));
+			if (!$reflection->isInterface() && $throwableClass !== $defaultClass && !$reflection->isSubclassOf($defaultClass)) {
+				TestCase::fail(sprintf('A class "%s" is not %s.', $throwableClass, self::resolveThrowableCaption($defaultClass)));
 			}
 		}
 
-		return $exceptionClass;
+		return $throwableClass;
 	}
 
-	private static function checkThrowableInstanceOf(Throwable $throwable, string $expectedThrowableClass): void
+	private static function checkThrowableInstanceOf(Throwable $throwable, string $expectedThrowableClass, string $expectedTypeCaption): void
 	{
 		$message = $throwable->getMessage();
 		$code = $throwable->getCode();
@@ -141,18 +131,18 @@ trait AssertException
 			$details = sprintf(' (code was %s)', $code);
 		}
 
-		$errorMessage = sprintf('Failed asserting the class of an exception%s.', $details);
+		$errorMessage = sprintf('Failed asserting the class of %s%s.', $expectedTypeCaption, $details);
 		TestCase::assertInstanceOf($expectedThrowableClass, $throwable, $errorMessage);
 	}
 
 	/**
-	 * @param \Throwable $exception
+	 * @param \Throwable $throwable
 	 * @param int|string|null $expectedCode
 	 */
-	private static function checkThrowableCode(Throwable $exception, $expectedCode): void
+	private static function checkThrowableCode(Throwable $throwable, $expectedCode): void
 	{
 		if ($expectedCode !== null) {
-			TestCase::assertEquals($expectedCode, $exception->getCode(), sprintf('Failed asserting the code of thrown %s.', get_class($exception)));
+			TestCase::assertEquals($expectedCode, $throwable->getCode(), sprintf('Failed asserting the code of thrown %s.', get_class($throwable)));
 		}
 	}
 
@@ -169,7 +159,23 @@ trait AssertException
 	 */
 	private static function failAssertingThrowable(string $expectedThrowableClass): void
 	{
-		TestCase::fail(sprintf('Failed asserting that %s was thrown.', $expectedThrowableClass));
+		TestCase::fail(sprintf('Failed asserting that %s was thrown.', self::resolveThrowableCaption($expectedThrowableClass)));
+	}
+
+	private static function resolveThrowableCaption(string $throwableClass): string
+	{
+		switch ($throwableClass) {
+			case Exception::class:
+				return 'an Exception';
+				break;
+			case Error::class:
+				return 'an Error';
+				break;
+			case Throwable::class:
+				return 'a Throwable';
+			default:
+				return $throwableClass;
+		}
 	}
 
 }
