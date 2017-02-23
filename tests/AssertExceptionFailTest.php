@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace VladaHejda;
 
@@ -14,7 +14,7 @@ class AssertExceptionFailTest extends TestCase
 		$this->expectExceptionMessage('Failed asserting the code of thrown Exception.');
 
 		$test = function() {
-			throw new Exception(null, 110);
+			throw new Exception('', 110);
 		};
 		AssertException::assertException($test, null, 120);
 	}
@@ -28,7 +28,7 @@ class AssertExceptionFailTest extends TestCase
 		));
 
 		$test = function() {
-			throw new MyException(null, 110);
+			throw new MyException('', 110);
 		};
 		AssertException::assertException($test, null, 120);
 	}

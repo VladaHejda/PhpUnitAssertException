@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace VladaHejda;
 
@@ -23,12 +23,12 @@ class AssertThrowableTest extends TestCase
 	public function testCode()
 	{
 		$test = function() {
-			throw new Exception(null, 110);
+			throw new Exception('', 110);
 		};
 		AssertException::assertThrowable($test, null, 110);
 
 		$test = function() {
-			throw new Error(null, 230);
+			throw new Error('', 230);
 		};
 		AssertException::assertThrowable($test, null, 230);
 	}

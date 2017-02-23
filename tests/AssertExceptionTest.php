@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace VladaHejda;
 
@@ -18,7 +18,7 @@ class AssertExceptionTest extends TestCase
 	public function testCode()
 	{
 		$test = function() {
-			throw new Exception(null, 110);
+			throw new Exception('', 110);
 		};
 		AssertException::assertException($test, null, 110);
 	}

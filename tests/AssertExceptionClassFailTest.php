@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace VladaHejda;
 
@@ -74,7 +74,7 @@ class AssertExceptionClassFailTest extends TestCase
 		$this->expectExceptionMessage('Failed asserting the class of an exception (code was 110).');
 
 		$test = function() {
-			throw new MyException(null, 110);
+			throw new MyException('', 110);
 		};
 		AssertException::assertException($test, MyExceptionSubclass::class);
 	}
