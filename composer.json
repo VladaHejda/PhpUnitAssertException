@@ -1,6 +1,6 @@
 {
 	"name": "vladahejda/phpunit-assert-exception",
-	"description": "Assert exception/throwable/error PHP Unit trait.",
+	"description": "Assert exception/throwable/error PHPUnit trait.",
 	"type": "library",
 	"keywords": [
 		"phpunit"
